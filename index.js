@@ -5,7 +5,6 @@ const MongoClient = require('mongodb').MongoClient;
 require('dotenv').config()
 
 
-
 const app = express()
 
 app.use(bodyParser.json());
@@ -17,34 +16,35 @@ const port = 5000
 //DB  
 
 
-console.log(process.env.DB_USER)
+ console.log(process.env)
 
-
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.0ltwi.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.hg2vz.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+
 client.connect(err => {
-  const collection = client.db("Repair").collection("services");
-  // perform actions on the collection object
-  client.close();
-});
+  
+  const serviceCollection = client.db("Repair").collection("services");
+  const reviewCollection = client.db("Repair").collection("reviews");
 
 
 
-                            app.get('/service',(req , res) =>{
-                                productCollection.find({})
-                                .toArray((err , documents) => {
-                                res.send(documents);
-                                })
-                            })
+  app.get('/services',(req , res) =>{
+    serviceCollection.find({})
+    .toArray((err , documents) => {
+    res.send(documents);
+    })
+})
 
-
-                app.get('/', function (req, res) {
-                    res.send('Hello World!')
-                })
-
-                app.get('/', function (req, res) {
-                    res.send('Hello World!')
-                })
+app.get('/reviews',(req , res) =>{
+  reviewCollection.find({})
+  .toArray((err , documents) => {
+  res.send(documents);
+  })
+})
+});         
+    
+                
 
                 // Respond to POST request on the root route (/), the application’s home page:
                 
@@ -65,9 +65,7 @@ client.connect(err => {
 
 
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
