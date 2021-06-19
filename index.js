@@ -32,11 +32,19 @@ client.connect(err => {
 
 
 
+
   app.get('/services',(req , res) =>{
     serviceCollection.find({})
     .toArray((err , documents) => {
     res.send(documents);
     })
+})
+
+app.get('/services/:id',(req , res) =>{
+  serviceCollection.find({})
+  .toArray((err , documents) => {
+  res.send(documents);
+  })
 })
 
 app.get('/reviews',(req , res) =>{
